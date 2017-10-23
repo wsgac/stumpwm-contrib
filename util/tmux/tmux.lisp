@@ -72,5 +72,10 @@
 
 (defun run-command-in-tmux (&key
                               (session (select-session-from-menu))
-                              (window )
-                              (pane)))
+                              ;; (window (select-window-from-menu :session session))
+                              ;; (pane (select-pane-from-menu :session session
+                              ;;                              :window window))
+                              (command (read-one-line (current-screen) "Command: ")))
+  (let ((cmd (format nil "tmux new-window -t ~a: ~:[~;-n ~a~] -d ~s"
+                     session nil command)))
+    (run-shell-command cmd)))
